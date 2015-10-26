@@ -1,0 +1,30 @@
+INSERT INTO prices VALUES('##000000', 000100.00, 'uah/kg');
+INSERT INTO prices VALUES('##000001', 000200.00, 'us/kg'); 
+INSERT INTO prices VALUES('##000002', 000300.00, 'uah/kg'); 
+INSERT INTO prices VALUES('##000003', 000400.00, 'uah/kg'); 
+INSERT INTO prices VALUES('##000004', 000500.00, 'uah/l'); 
+INSERT INTO prices VALUES('##000005', 000600.00, 'uah/kg'); 
+INSERT INTO prices VALUES('##000006', 000700.00, 'uah/unit'); 
+INSERT INTO prices VALUES('##000007', 000800.00, 'uah/kg'); 
+INSERT INTO prices VALUES('##000008', 000900.00, 'uah/kg');
+INSERT INTO prices VALUES('##000009', 001000.00, 'uah/kg');
+
+INSERT INTO departments VALUES('fruits', 10);
+INSERT INTO departments VALUES('vegetables', 8);  
+INSERT INTO departments VALUES('bread', 5);  
+INSERT INTO departments VALUES('dairy', 7);
+
+INSERT INTO dishes VALUES('Cesar', '##000000', 'Salad', 'vegetables');
+INSERT INTO products VALUES('White bread', '##000001', 'Usual product', 'bread');  
+INSERT INTO products VALUES('Ñottage cheese', '##000002', 'Dairy product', 'dairy');  
+INSERT INTO dishes VALUES('Fruit basket', '##000003', 'Basket with different fruits', 'fruits');  
+INSERT INTO dishes VALUES('Napoleon', '##000004', 'Tasty dessert', 'bread');  
+INSERT INTO products VALUES('Milk', '##000005', 'Usual product', 'dairy');  
+INSERT INTO products VALUES('Flour', '##000006', 'Ingredient', 'bread');  
+INSERT INTO products VALUES('Italian spices', '##000007', 'Spice', 'vegetables');  
+INSERT INTO dishes VALUES('Crab salad', '##000008', 'Salad', 'vegetables');  
+INSERT INTO products VALUES('Banana', '##000009', 'Yellow fruit', 'fruits');
+
+INSERT INTO recipes VALUES('Napoleon', 'Milk', 800);
+INSERT INTO recipes VALUES('Fruit basket', 'Banana', 400);  
+INSERT INTO recipes VALUES('Napoleon', 'Flour', 200);
