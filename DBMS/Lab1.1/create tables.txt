@@ -1,0 +1,28 @@
+CREATE DATABASE grocery_store;
+
+\ñ grocery_store;
+
+CREATE TABLE prices (
+id CHARACTER(8) PRIMARY KEY,
+price DECIMAL(8,2) NOT NULL,
+mesuaring_unit VARCHAR(15) NOT NULL);
+
+CREATE TABLE departments (
+name VARCHAR(30) PRIMARY KEY,
+shelf_amount INTEGER);
+
+CREATE TABLE dishes (
+name VARCHAR(75) PRIMARY KEY,
+id CHARACTER(8) UNIQUE NOT NULL REFERENCES prices(id),
+description TEXT DEFAULT 'Usual dish',
+dep_name VARCHAR(30) NOT NULL REFERENCES departments(name));
+
+CREATE TABLE products (
+name VARCHAR(75) PRIMARY KEY,
+id CHARACTER(8) UNIQUE NOT NULL REFERENCES prices(id),
+dep_name VARCHAR(30) NOT NULL REFERENCES departments(name));
+
+CREATE TABLE recipes (
+d_name VARCHAR(75) REFERENCES dishes(name),
+p_name VARCHAR(75) REFERENCES products(name),
+weight INTEGER NOT NULL);
