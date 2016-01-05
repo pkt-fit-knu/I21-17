@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Name</title>
+	    <meta charset="utf-8"/>
+        <script type="text/javascript">
+            function Tree(lID, nID, nodeColor, leavesColor, nodeCoef, leavesCoef)
+            {
+                this.lID = lID;
+                this.nID = nID;
+                
+                this.setNodeColor(nodeColor);
+                this.setLeavesColor(leavesColor);
+                this.setNode(nodeCoef);
+                this.setLeaves(leavesCoef);
+            }
+            
+            Tree.prototype.setLeavesColor = function(color)
+            {
+                document.getElementById(this.lID).setAttribute("fill", color);
+            }
+            
+            Tree.prototype.setNodeColor = function(color)
+            {
+                document.getElementById(this.nID).setAttribute("fill", color);
+            }
+            
+            Tree.prototype.setNode = function(coef)
+            {
+                document.getElementById(this.nID).setAttribute("d", this.getNodePath(coef));
+            }
+            
+            Tree.prototype.getNodePath = function(coef)
+            {
+                return "M" + (200 - coef) + ",300 L" + (200 - coef) + ",400 L" + (250 + coef) + ",400 L" + (250 + coef) + ",300 Z";
+                re
+            }
+            
+            Tree.prototype.setLeaves = function(coef)
+            {
+                document.getElementById(this.lID).setAttribute("d", this.getLeavesPath(coef));
+            }
+            
+            Tree.prototype.getLeavesPath = function(coef)
+            {
+                return "M200,300 L" + (50 - coef) + ",300 L200,200 L" + (100 - coef * 0.5) + ",200 L200,100 L" + (150 - coef * 0.25) +  ",100 L225,0 L" + (300 + coef * 0.25) + ",100 L250,100 L" + (350 + coef * 0.5) + ",200 L250,200 L" + (400 + coef) + ",300 Z";
+            }
+            
+            function draw()
+            {
+                var tree = new Tree("l1", "n1", "brown", "green", 0, 0);
+            }
+            
+            window.onload = draw;
+        </script>
+    </head>
+    <body>
+        <svg x="0" y="0" width="700" vievBox="0 0 700 700" height="700">
+            <svg>
+                <path id="n1"/>
+            </svg>
+            <svg>
+                <path id="l1" />
+            </svg>
+        </svg>
+    </body>
+</html>
