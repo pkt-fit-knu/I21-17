@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Javascript animation</title>
+        <script type="text/javascript">
+            
+            function Image(x,y,id, destX, destY, boost)
+            {
+                this.img = document.getElementById(id);
+                this.img.style.left = x + 'px';
+                this.img.style.top = y + 'px';
+                this.img.style.position= 'absolute';
+                this.destX = destX;
+                this.destY = destY;
+                this.boost = boost;
+                this.middleX = (x + destX) / 2;
+                this.middleY = (y + destY) / 2;
+            }
+            
+            var interval;
+            
+            ToB = function(images)
+            {
+                for (var i = 0; i < images.length; ++i)
+                {
+                    Image.prototype.calculateStep.call(images[i]);
+                }
+                
+                interval = setInterval(function()
+                {
+                    for (var i = 0; i < images.length; ++i)
+                    {
+                        if(images[i].boost)
+                        { 
+                            Image.prototype.doMoveSpeed.call(images[i]);
+                        }
+                        else
+                        {
+                            Image.prototype.doMove.call(images[i]);
+                        }
+                    }
+                }, 20);
+            }
+            
+            Image.prototype.doMove = function()
+            {
+                if ((this.stepX >= 0 && this.stepY >= 0 && parseInt(this.img.style.left) <= this.destX && parseInt(this.img.style.top) <= this.destY) ||
+                    (this.stepX >= 0 && this.stepY < 0 && parseInt(this.img.style.left) <= this.destX && parseInt(this.img.style.top) >= this.destY) ||
+                    (this.stepX < 0 && this.stepY >= 0 && parseInt(this.img.style.left) >= this.destX && parseInt(this.img.style.top) <= this.destY) ||
+                    (this.stepX < 0 && this.stepY < 0 && parseInt(this.img.style.left) >= this.destX && parseInt(this.img.style.top) >= this.destY))
+                {
+                    this.img.style.left = parseInt(this.img.style.left) + this.stepX + 'px';
+                    this.img.style.top = parseInt(this.img.style.top) + this.stepY + 'px';
+                }
+            }
+            
+            Image.prototype.doMoveSpeed = function()
+            {
+                if (this.stepX > 0 && this.stepY > 0 && parseInt(this.img.style.left) <= this.destX && parseInt(this.img.style.top) <= this.destY)
+                {
+                    this.img.style.left = parseInt(this.img.style.left) + this.stepX + 'px';
+                    this.img.style.top = parseInt(this.img.style.top) + this.stepY + 'px';
+                    
+                    if(parseInt(this.img.style.left) <= this.middleX && parseInt(this.img.style.top) <= this.middleY)
+                    {
+                        this.stepX +=this.proportion;
+                        ++this.stepY;
+                    }
+                    else
+                    {
+                        this.stepX -=this.proportion;
+                        --this.stepY;
+                    }
+                }
+                else if (this.stepX > 0 && this.stepY === 0 && parseInt(this.img.style.left) <= this.destX)
+                {
+                    this.img.style.left = parseInt(this.img.style.left) + this.stepX + 'px';
+                    
+                    if(parseInt(this.img.style.left) <= this.middleX)
+                    {
+                        ++this.stepX;
+                    }
+                    else
+                    {
+                        --this.stepX;
+                    }
+                }
+                else if(this.stepX > 0 && this.stepY < 0 && parseInt(this.img.style.left) <= this.destX && parseInt(this.img.style.top) >= this.destY)
+                {
+                    this.img.style.left = parseInt(this.img.style.left) + this.stepX + 'px';
+                    this.img.style.top = parseInt(this.img.style.top) + this.stepY + 'px';
+                                        
+                    if(parseInt(this.img.style.left) <= this.middleX && parseInt(this.img.style.top) >= this.middleY)
+                    {
+                        this.stepX +=this.proportion;
+                        --this.stepY;
+                    }
+                    else
+                    {
+                        this.stepX -=this.proportion;
+                        ++this.stepY;
+                    }
+                }
+                else if (this.stepX < 0 && this.stepY === 0 && parseInt(this.img.style.left) >= this.destX)
+                {
+                    this.img.style.left = parseInt(this.img.style.left) + this.stepX + 'px';
+                    
+                    if(parseInt(this.img.style.left) <= this.middleX)
+                    {
+                        --this.stepX;
+                    }
+                    else
+                    {
+                        ++this.stepX;
+                    }
+                }
+                else if(this.stepX < 0 && this.stepY > 0 && parseInt(this.img.style.left) >= this.destX && parseInt(this.img.style.top) <= this.destY)
+                {
+                    this.img.style.left = parseInt(this.img.style.left) + this.stepX + 'px';
+                    this.img.style.top = parseInt(this.img.style.top) + this.stepY + 'px';
+                                        
+                    if(parseInt(this.img.style.left) >= this.middleX && parseInt(this.img.style.top) <= this.middleY)
+                    {
+                        this.stepX -=this.proportion;
+                        ++this.stepY;
+                    }
+                    else
+                    {
+                        this.stepX +=this.proportion;
+                        --this.stepY;
+                    }
+                }
+                else if (this.stepX === 0 && this.stepY > 0 && parseInt(this.img.style.top) <= this.destY)
+                {
+                    this.img.style.top = parseInt(this.img.style.top) + this.stepY + 'px';
+                    
+                    if(parseInt(this.img.style.top) <= this.middleY)
+                    {
+                        ++this.stepY;
+                    }
+                    else
+                    {
+                        --this.stepY;
+                    }
+                }
+                else if(this.stepX < 0 && this.stepY < 0 && parseInt(this.img.style.left) >= this.destX && parseInt(this.img.style.top) >= this.destY)
+                {
+                    this.img.style.left = parseInt(this.img.style.left) + this.stepX + 'px';
+                    this.img.style.top = parseInt(this.img.style.top) + this.stepY + 'px';
+                                        
+                    if(parseInt(this.img.style.left) >= this.middleX && parseInt(this.img.style.top) >= this.middleY)
+                    {
+                        this.stepX -=this.proportion;
+                        --this.stepY;
+                    }
+                    else
+                    {
+                        this.stepX +=this.proportion;
+                        ++this.stepY;
+                    }
+                }
+                else if (this.stepX === 0 && this.stepY < 0 && parseInt(this.img.style.top) >= this.destY)
+                {
+                    this.img.style.top = parseInt(this.img.style.top) + this.stepY + 'px';
+                    
+                    if(parseInt(this.img.style.top) >= this.middleY)
+                    {
+                        --this.stepY;
+                    }
+                    else
+                    {
+                        ++this.stepY;
+                    }
+                }
+            }
+                    
+            Image.prototype.calculateStep = function()
+            {
+                this.stepX = (this.destX - parseInt(this.img.style.left)) / 100;
+                this.stepY = (this.destY - parseInt(this.img.style.top)) / 100;
+                
+                var stepX = this.stepX >= 0 ? this.stepX : this.stepX * -1;
+                var stepY = this.stepY >= 0 ? this.stepY : this.stepY * -1;
+                
+                this.proportion = stepX / stepY;
+            }
+            
+            function init()
+            {
+                var img1 = new Image(0, 0, "img1", 200, 500, true);
+                var img2 = new Image(700, 200, "img2", 300, 400, false);
+                var img3 = new Image(100, 500, "img3", 600, 200, true);
+                
+                ToB([img1, img2, img3]);
+            }
+            
+            window.onload = init;
+
+        </script>
+    </head>
+
+    <body>
+        <img id="img1" src="http://cs627331.vk.me/v627331627/159c6/HujQ4Z_-698.jpg">
+        <img id="img2" src="http://cs627331.vk.me/v627331627/159c6/HujQ4Z_-698.jpg">
+        <img id="img3" src="http://cs627331.vk.me/v627331627/159c6/HujQ4Z_-698.jpg">
+    </body>
+</html>
