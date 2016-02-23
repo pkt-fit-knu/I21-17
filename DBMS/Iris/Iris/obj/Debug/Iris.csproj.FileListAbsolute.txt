@@ -1,0 +1,6 @@
+D:\Учёба\Лабы\С#\Iris\Iris\bin\Debug\Iris.exe.config
+D:\Учёба\Лабы\С#\Iris\Iris\bin\Debug\Iris.exe
+D:\Учёба\Лабы\С#\Iris\Iris\bin\Debug\Iris.pdb
+D:\Учёба\Лабы\С#\Iris\Iris\obj\Debug\Iris.csprojResolveAssemblyReference.cache
+D:\Учёба\Лабы\С#\Iris\Iris\obj\Debug\Iris.exe
+D:\Учёба\Лабы\С#\Iris\Iris\obj\Debug\Iris.pdb
