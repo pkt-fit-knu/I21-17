@@ -13,7 +13,7 @@ namespace BrightnessHistograms
 
         private void startButton_Click(object sender, EventArgs e)
         {
-            Bitmap def = new Bitmap(Image.FromFile(@"C:\Users\Дима\Desktop\Wallpapers\barel.jpg"), new Size(500, 375));
+            Bitmap def = new Bitmap(Image.FromFile(@"C:\Users\Дима\Desktop\Wallpapers\stockvault-pedal-background121015.jpg"), new Size(500, 375));
 
             defaultImage.Image = def;
 

@@ -5,10 +5,12 @@ namespace BrightnessHistograms
 {
     class ImageProcessor
     {
+        Dictionary<int, int> colors = new Dictionary<int, int>();
+
+        int totalPixels;
+
         public Bitmap CreateHisto(Bitmap image)
         {
-            Dictionary<int, int> colors = new Dictionary<int, int>();
-
             for(int x = 0; x < image.Width; ++x)
             {
                 for(int y = 0; y < image.Height; ++y)
@@ -30,11 +32,11 @@ namespace BrightnessHistograms
 
             foreach(var pair in colors)
             {
-                for(int y = 0; y < pair.Value / 10; ++y)
+                for(int y = 0; y < pair.Value / 30; ++y)
                 {
                     if (y < histo.Height)
                     {
-                        histo.SetPixel(pair.Key, y, Color.Red);
+                        histo.SetPixel(pair.Key, y, Color.Gray);
                     }
                 }
             }
@@ -43,29 +45,11 @@ namespace BrightnessHistograms
         }
 
         int GetBrightness(Color c) => (int)(0.3 * c.R + 0.59 * c.G + 0.11 * c.B);
-        Color GetNewColor(Color c, int diff)
-        {
-            int red = c.R + diff;
-            int green = c.G + diff;
-            int blue = c.B + diff;
 
-            if (red > 255)
-            {
-                red = 255;
-            }
-            if (green > 255)
-            {
-                green = 255;
-            }
-            if (blue > 255)
-            {
-                blue = 255;
-            }
-
-            return Color.FromArgb(red, green, blue);
-        }
         public Bitmap Enchance(Bitmap image)
         {
+            totalPixels = image.Width * image.Height;
+
             Bitmap newImage = new Bitmap(image.Width, image.Height);
 
             for(int x = 0; x < image.Width; ++x)
@@ -81,30 +65,31 @@ namespace BrightnessHistograms
 
         Color ChangeBrightness(Color color)
         {
-            Color newColor;
+            int brightness = color.R;
 
-            if (GetBrightness(color) < 35)
+            double newBrightness = 0;
+
+            for(int b = 0; b <= brightness; ++b)
             {
-                newColor = GetNewColor(color, 20);
+                if (colors.ContainsKey(b))
+                {
+                    newBrightness += (double)colors[b] / totalPixels;
+                }
             }
-            else if (GetBrightness(color) < 55)
+
+            newBrightness *= 255;
+
+            int gray;
+            if(newBrightness - (int)newBrightness > 0.5)
             {
-                newColor = GetNewColor(color, 15);
-            }
-            else if (GetBrightness(color) < 75)
-            {
-                newColor = GetNewColor(color, 10);
-            }
-            else if (GetBrightness(color) < 95)
-            {
-                newColor = GetNewColor(color, 5);
+                gray = (int)newBrightness + 1;
             }
             else
             {
-                newColor = color;
+                gray = (int)newBrightness;
             }
 
-            return newColor;
+            return Color.FromArgb(gray, gray, gray);
         }
     }
 }
