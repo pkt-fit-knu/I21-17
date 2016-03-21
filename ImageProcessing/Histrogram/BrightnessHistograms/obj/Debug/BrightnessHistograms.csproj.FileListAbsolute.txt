@@ -7,3 +7,6 @@ D:\Учёба\Лабы\С#\BrightnessHistograms\BrightnessHistograms\obj\Debug\B
 D:\Учёба\Лабы\С#\BrightnessHistograms\BrightnessHistograms\obj\Debug\BrightnessHistograms.csproj.GenerateResource.Cache
 D:\Учёба\Лабы\С#\BrightnessHistograms\BrightnessHistograms\obj\Debug\BrightnessHistograms.exe
 D:\Учёба\Лабы\С#\BrightnessHistograms\BrightnessHistograms\obj\Debug\BrightnessHistograms.pdb
+D:\Учёба\Лабы\gitFiles\ImageProcessing\Histrogram\BrightnessHistograms\bin\Debug\BrightnessHistograms.exe.config
+D:\Учёба\Лабы\gitFiles\ImageProcessing\Histrogram\BrightnessHistograms\obj\Debug\BrightnessHistograms.exe
+D:\Учёба\Лабы\gitFiles\ImageProcessing\Histrogram\BrightnessHistograms\obj\Debug\BrightnessHistograms.pdb
