@@ -15,7 +15,7 @@ namespace BrightnessHistograms
             {
                 for(int y = 0; y < image.Height; ++y)
                 {
-                    int brightness = GetBrightness(image.GetPixel(x, y));
+                    int brightness = image.GetPixel(x, y).R;
 
                     if(colors.ContainsKey(brightness))
                     {
@@ -43,8 +43,6 @@ namespace BrightnessHistograms
 
             return histo;
         }
-
-        int GetBrightness(Color c) => (int)(0.3 * c.R + 0.59 * c.G + 0.11 * c.B);
 
         public Bitmap Enchance(Bitmap image)
         {
