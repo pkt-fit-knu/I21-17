@@ -1,47 +1,35 @@
-﻿using System.Collections.Generic;
-using System.Drawing;
+﻿using System.Drawing;
+using System.Windows.Forms.DataVisualization.Charting;
 
 namespace BrightnessHistograms
 {
     class ImageProcessor
     {
-        Dictionary<int, int> colors = new Dictionary<int, int>();
+        int[] colors = new int[256];
 
         int totalPixels;
 
-        public Bitmap CreateHisto(Bitmap image)
+        public void CreateHisto(Bitmap image, Chart chart)
         {
             for(int x = 0; x < image.Width; ++x)
             {
                 for(int y = 0; y < image.Height; ++y)
                 {
                     int brightness = image.GetPixel(x, y).R;
-
-                    if(colors.ContainsKey(brightness))
-                    {
-                        ++colors[brightness];
-                    }
-                    else
-                    {
-                        colors.Add(brightness, 1);
-                    }
+                    
+                    ++colors[brightness];
                 }
             }
 
-            Bitmap histo = new Bitmap(400, 400);
+            chart.Series["Brightness"].Points.Clear();
 
-            foreach(var pair in colors)
+            for (int x = 0; x < colors.Length; ++x)
             {
-                for(int y = 0; y < pair.Value / 30; ++y)
-                {
-                    if (y < histo.Height)
-                    {
-                        histo.SetPixel(pair.Key, y, Color.Gray);
-                    }
-                }
-            }
+                DataPoint dp = new DataPoint();
+                dp.SetValueXY(x, colors[x]);
 
-            return histo;
+                chart.Series["Brightness"].Points.Add(dp);
+            }
         }
 
         public Bitmap Enchance(Bitmap image)
@@ -69,10 +57,7 @@ namespace BrightnessHistograms
 
             for(int b = 0; b <= brightness; ++b)
             {
-                if (colors.ContainsKey(b))
-                {
-                    newBrightness += (double)colors[b] / totalPixels;
-                }
+                newBrightness += (double)colors[b] / totalPixels;
             }
 
             newBrightness *= 255;

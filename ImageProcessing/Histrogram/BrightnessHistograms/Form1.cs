@@ -19,13 +19,13 @@ namespace BrightnessHistograms
 
             ImageProcessor ip = new ImageProcessor();
 
-            defaultHisto.Image = ip.CreateHisto(def);
+            ip.CreateHisto(def, ChartOriginal);
 
             Bitmap ench = ip.Enchance(def);
 
             enchancedImage.Image = ench;
 
-            enchancedHisto.Image = ip.CreateHisto(ench);
+            ip.CreateHisto(ench, ChartEnchanced);
         }
     }
 }
