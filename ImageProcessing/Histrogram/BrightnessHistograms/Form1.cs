@@ -11,7 +11,7 @@ namespace BrightnessHistograms
             InitializeComponent();
         }
 
-        private void startButton_Click(object sender, EventArgs e)
+        private void enchanceContrast_Click(object sender, EventArgs e)
         {
             Bitmap def = new Bitmap(Image.FromFile(@"C:\Users\Дима\Desktop\Wallpapers\sample2.jpg"), new Size(500, 375));
 
@@ -26,6 +26,17 @@ namespace BrightnessHistograms
             enchancedImage.Image = ench;
 
             ip.CreateHisto(ench, ChartEnchanced);
+        }
+
+        private void enchanceSharpness_Click(object sender, EventArgs e)
+        {
+            Bitmap def = new Bitmap(Image.FromFile(@"C:\Users\Дима\Desktop\Wallpapers\SourceImage2.png"));
+
+            ImageEnchancer ie = new ImageEnchancer(def);
+
+            Bitmap result = ie.EnchanceSharpness();
+
+            result.Save(@"C:\Users\Дима\Desktop\Wallpapers\resultEnch.jpg", System.Drawing.Imaging.ImageFormat.Jpeg);
         }
     }
 }
