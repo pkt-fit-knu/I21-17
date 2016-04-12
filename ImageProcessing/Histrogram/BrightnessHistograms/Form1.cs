@@ -30,7 +30,7 @@ namespace BrightnessHistograms
 
         private void enchanceSharpness_Click(object sender, EventArgs e)
         {
-            Bitmap def = new Bitmap(Image.FromFile(@"C:\Users\Дима\Desktop\Wallpapers\SourceImage2.png"));
+            Bitmap def = new Bitmap(Image.FromFile(@"C:\Users\Дима\Desktop\Wallpapers\sample4.jpg"));
 
             ImageEnchancer ie = new ImageEnchancer(def);
 

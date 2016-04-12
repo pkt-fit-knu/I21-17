@@ -90,18 +90,7 @@ namespace BrightnessHistograms
         {
             int width = image.GetLength(0);
             int height = image.GetLength(1);
-            int minBrightness = int.MaxValue;
-
-            for (int x = 0; x < width; ++x)
-            {
-                for(int y = 0; y < height; ++y)
-                {
-                    if(image[x, y] < minBrightness)
-                    {
-                        minBrightness = image[x, y];
-                    }
-                }
-            }
+            //int minBrightness = int.MaxValue;
 
             int[,] newImage = new int[width, height];
 
@@ -109,9 +98,41 @@ namespace BrightnessHistograms
             {
                 for (int y = 0; y < height; ++y)
                 {
-                    newImage[x, y] = image[x, y] - minBrightness;
+                    if (image[x, y] < 0)
+                    {
+                        newImage[x, y] = -image[x, y];
+                    }
+                    else
+                    {
+                        newImage[x, y] = image[x, y];
+                    }
                 }
             }
+
+            #region WrongAlg
+
+            //for (int x = 0; x < width; ++x)
+            //{
+            //    for (int y = 0; y < height; ++y)
+            //    {
+            //        if (image[x, y] < minBrightness)
+            //        {
+            //            minBrightness = image[x, y];
+            //        }
+            //    }
+            //}
+
+            //int[,] newImage = new int[width, height];
+
+            //for (int x = 0; x < width; ++x)
+            //{
+            //    for (int y = 0; y < height; ++y)
+            //    {
+            //        newImage[x, y] = image[x, y] - minBrightness;
+            //    }
+            //}
+
+            #endregion
 
             return newImage;
         }
@@ -120,29 +141,50 @@ namespace BrightnessHistograms
         {
             int width = image.GetLength(0);
             int height = image.GetLength(1);
-            int maxBrightness = int.MinValue;
+            //int maxBrightness = int.MinValue;
+
+            int[,] newImage = new int[width, height];
 
             for (int x = 0; x < width; ++x)
             {
                 for (int y = 0; y < height; ++y)
                 {
-                    if (maxBrightness < image[x, y])
+                    if (image[x, y] > 255)
                     {
-                        maxBrightness = image[x, y];
+                        newImage[x, y] = 255;
+                    }
+                    else
+                    {
+                        newImage[x, y] = image[x, y];
                     }
                 }
             }
 
-            int[,] newImage = new int[width, height];
-            double coef = 255 / (double)maxBrightness;
+            #region WrongAlg
 
-            for (int x = 0; x < width; ++x)
-            {
-                for (int y = 0; y < height; ++y)
-                {
-                    newImage[x, y] = Convert.ToInt32(image[x, y] * coef);
-                }
-            }
+            //for (int x = 0; x < width; ++x)
+            //{
+            //    for (int y = 0; y < height; ++y)
+            //    {
+            //        if (maxBrightness < image[x, y])
+            //        {
+            //            maxBrightness = image[x, y];
+            //        }
+            //    }
+            //}
+
+            //int[,] newImage = new int[width, height];
+            //double coef = 255 / (double)maxBrightness;
+
+            //for (int x = 0; x < width; ++x)
+            //{
+            //    for (int y = 0; y < height; ++y)
+            //    {
+            //        newImage[x, y] = Convert.ToInt32(image[x, y] * coef);
+            //    }
+            //}
+
+            #endregion
 
             return newImage;
         }
