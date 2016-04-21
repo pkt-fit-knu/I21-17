@@ -6,3 +6,6 @@ D:\Учёба\Лабы\С#\DivideAndConquer\DivideAndConquer\obj\Debug\DivideAnd
 D:\Учёба\Лабы\С#\DivideAndConquer\DivideAndConquer\obj\Debug\DivideAndConquer.pdb
 D:\Учёба\Лабы\С#\DivideAndConquer\DivideAndConquer\obj\Debug\DivideAndConquer.Constants.resources
 D:\Учёба\Лабы\С#\DivideAndConquer\DivideAndConquer\obj\Debug\DivideAndConquer.csproj.GenerateResource.Cache
+D:\Учёба\Лабы\gitFiles\DBMS\DataMining\DivideAndConquer\DivideAndConquer\bin\Debug\DivideAndConquer.exe.config
+D:\Учёба\Лабы\gitFiles\DBMS\DataMining\DivideAndConquer\DivideAndConquer\obj\Debug\DivideAndConquer.exe
+D:\Учёба\Лабы\gitFiles\DBMS\DataMining\DivideAndConquer\DivideAndConquer\obj\Debug\DivideAndConquer.pdb
