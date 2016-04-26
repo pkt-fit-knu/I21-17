@@ -7,7 +7,10 @@ namespace Classifier
 {
     class Classifier
     {
-        private readonly string path1, path2, stopWordsPath, TF_IDF_Directory;
+        private readonly string path1, path2, TF_IDF_Directory;
+
+        List<List<string>> words;
+        string[] stopWords;
 
         public Classifier(string path1, string path2, string stopWordsPath, string TF_IDF_Directory)
         {
@@ -15,8 +18,9 @@ namespace Classifier
             {
                 this.path1 = path1;
                 this.path2 = path2;
-                this.stopWordsPath = stopWordsPath;
                 this.TF_IDF_Directory = TF_IDF_Directory;
+
+                stopWords = File.ReadAllLines(stopWordsPath);
             }
             else
             {
@@ -31,14 +35,12 @@ namespace Classifier
             GetTexts(path1, ref texts);
             GetTexts(path2, ref texts);
 
-            List<List<string>> words = new List<List<string>>();
+            words = new List<List<string>>();
 
             foreach(string text in texts)
             {
                 words.Add(text.Split(new char[] {' ', ',', '.', '(', ')', '\"', '\\', '/', ':', ';', '!', '?', '\r', '\n', '%', '$', '_', '[', ']', '{', '}'}, StringSplitOptions.RemoveEmptyEntries).ToList());
             }
-
-            string[] stopWords = File.ReadAllLines(stopWordsPath);
 
             foreach(var list in words)
             {
@@ -48,26 +50,47 @@ namespace Classifier
                 list.RemoveAll(item => double.TryParse(item, out num));
             }
 
-            using (StreamWriter writer = new StreamWriter(TF_IDF_Directory + "\\tf - idf.txt"))
+            int index = 0;
+
+            foreach (var list in words)
             {
-                foreach(var list in words)
+                WriteTF_IDF(list, index);
+
+                ++index;
+            }
+        }
+
+        public void PrepareWords(string path, int index)
+        {
+            List<string> words = File.ReadAllText(path).ToLower().Split(new char[] { ' ', ',', '.', '(', ')', '\"', '\\', '/', ':', ';', '!', '?', '\r', '\n', '%', '$', '_', '[', ']', '{', '}' }, StringSplitOptions.RemoveEmptyEntries).ToList();
+
+            double num;
+
+            words.RemoveAll(item => stopWords.Contains(item));
+            words.RemoveAll(item => double.TryParse(item, out num));
+
+            this.words.Add(words);
+
+            WriteTF_IDF(words, index);
+        }
+
+        void WriteTF_IDF(List<string> list, int index)
+        {
+            using (StreamWriter writer = new StreamWriter(TF_IDF_Directory + $"\\tf - idf{index}.txt"))
+            {
+                List<string> uniqueWords = new List<string>();
+
+                foreach (string word in list)
                 {
-                    List<string> uniqueWords = new List<string>();
-
-                    foreach(string word in list)
+                    if (!uniqueWords.Contains(word))
                     {
-                        if(!uniqueWords.Contains(word))
-                        {
-                            uniqueWords.Add(word);
+                        uniqueWords.Add(word);
 
-                            double tf = (double)list.Where(w => w == word).Count() / list.Count;
-                            double idf = Math.Log10((double)words.Count / words.Where(l => l.Contains(word)).Count());
+                        double tf = (double)list.Where(w => w == word).Count() / list.Count;
+                        double idf = Math.Log10((double)words.Count / words.Where(l => l.Contains(word)).Count());
 
-                            writer.WriteLine(word + "=" + tf * idf);
-                        }
+                        writer.WriteLine(word + "=" + tf * idf);
                     }
-
-                    writer.WriteLine();
                 }
             }
         }
@@ -77,6 +100,46 @@ namespace Classifier
             foreach (string fileName in Directory.GetFiles(path))
             {
                 list.Add(File.ReadAllText(fileName).ToLower());
+            }
+        }
+
+        public double CalculateTanimoto(Document first, Document second)
+        {
+            List<string> words = first.Terms.Keys.ToList();
+            words.AddRange(second.Terms.Keys.ToList());
+
+            double scalarProduct = 0, firstVectorNorm = 0, secondVectorNorm = 0;
+
+            foreach(string word in words)
+            {
+                double firstMultiplier = 0, secondMultiplier = 0;
+
+                if (!first.Terms.ContainsKey(word) && second.Terms.ContainsKey(word))
+                {
+                    secondMultiplier = second.Terms[word];
+                }
+                else if (first.Terms.ContainsKey(word) && !second.Terms.ContainsKey(word))
+                {
+                    firstMultiplier = first.Terms[word];
+                }
+                else if (first.Terms.ContainsKey(word) && second.Terms.ContainsKey(word))
+                {
+                    secondMultiplier = second.Terms[word];
+                    firstMultiplier = first.Terms[word];
+                }
+
+                scalarProduct += firstMultiplier * secondMultiplier;
+                firstVectorNorm += Math.Pow(firstMultiplier, 2);
+                secondVectorNorm += Math.Pow(secondMultiplier, 2);
+            }
+
+            try
+            {
+                return scalarProduct / (firstVectorNorm + secondVectorNorm - scalarProduct);
+            }
+            catch(DivideByZeroException e)
+            {
+                return 0;
             }
         }
     }
