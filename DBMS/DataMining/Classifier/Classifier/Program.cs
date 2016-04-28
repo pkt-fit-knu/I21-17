@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using static System.Console;
 
 namespace Classifier
 {
@@ -12,7 +12,9 @@ namespace Classifier
 
             classifier.PrepareWords(@"D:\Учёба\Лабы\newArticle.txt", 12);
 
-            List<Document> documents;
+            WriteLine(classifier.Classify(new Document(null, @"D:\Учёба\Лабы\tf - idf12.txt"), 12, 4));
+
+            ReadKey();
         }
     }
 }

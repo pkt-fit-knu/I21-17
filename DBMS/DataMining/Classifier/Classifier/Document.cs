@@ -9,7 +9,7 @@ namespace Classifier
 {
     class Document
     {
-        public string Class { get; private set; }
+        public string Class { get; set; }
 
         public Dictionary<string, double> Terms;
 

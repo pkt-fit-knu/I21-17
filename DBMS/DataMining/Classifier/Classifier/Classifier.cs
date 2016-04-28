@@ -103,7 +103,7 @@ namespace Classifier
             }
         }
 
-        public double CalculateTanimoto(Document first, Document second)
+        double CalculateTanimoto(Document first, Document second)
         {
             List<string> words = first.Terms.Keys.ToList();
             words.AddRange(second.Terms.Keys.ToList());
@@ -140,6 +140,55 @@ namespace Classifier
             catch(DivideByZeroException e)
             {
                 return 0;
+            }
+        }
+
+        public string Classify(Document newDoc, int numberOfDocuments, int k)
+        {
+            SortedList<double, string> nearestNeighbors = new SortedList<double, string>();
+
+            for(int i = 0; i < numberOfDocuments / 2; ++i)
+            {
+                Document oldDoc = new Document("Programming", TF_IDF_Directory + "\\" + $"tf - idf{i}.txt");
+                double distance = CalculateTanimoto(newDoc, oldDoc);
+
+                AddNeighbor(k, ref nearestNeighbors, distance, oldDoc.Class);
+            }
+
+            for (int i = numberOfDocuments / 2; i < numberOfDocuments; ++i)
+            {
+                Document oldDoc = new Document("Health", TF_IDF_Directory + "\\" + $"tf - idf{i}.txt");
+                double distance = CalculateTanimoto(newDoc, oldDoc);
+
+                AddNeighbor(k, ref nearestNeighbors, distance, oldDoc.Class);
+            }
+
+            int programmingCount = 0, healthCount = 0;
+            foreach(string s in nearestNeighbors.Values)
+            {
+                if(s == "Programming")
+                {
+                    ++programmingCount; 
+                }
+                else
+                {
+                    ++healthCount;
+                }
+            }
+
+            return programmingCount > healthCount ? "Programming" : "Health";
+        }
+
+        void AddNeighbor(int k, ref SortedList<double, string> neighbors, double distance, string @class)
+        {
+            if(neighbors.Count < k)
+            {
+                neighbors.Add(distance, @class);
+            }
+            else if(distance > neighbors.Keys.Last())
+            {
+                neighbors.RemoveAt(k - 1);
+                neighbors.Add(distance, @class);
             }
         }
     }
