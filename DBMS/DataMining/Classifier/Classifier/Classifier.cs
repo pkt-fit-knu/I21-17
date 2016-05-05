@@ -185,9 +185,9 @@ namespace Classifier
             {
                 neighbors.Add(distance, @class);
             }
-            else if(distance > neighbors.Keys.Last())
+            else if(distance > neighbors.Keys.First())
             {
-                neighbors.RemoveAt(k - 1);
+                neighbors.RemoveAt(0);
                 neighbors.Add(distance, @class);
             }
         }
